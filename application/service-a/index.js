@@ -4,8 +4,6 @@ import morgan from 'morgan';
 import axios from 'axios';
 import pino from 'pino'
 
-require('./tracing'); // Add this line to initialize tracing
-
 const app = express();
 
 const PORT = 9000;
