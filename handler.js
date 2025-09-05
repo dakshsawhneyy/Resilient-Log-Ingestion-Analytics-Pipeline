@@ -1,12 +1,17 @@
 import { Kafka } from 'kafkajs'
 import fs from 'fs'
+import path from 'path'
+
+
+// Decoding the string back to PEM format
+const caCert = Buffer.from(process.env.KAFKA_CA_BASE64, 'base64').toString('utf-8');
 
 // Create Kafka Instance
 const kafka = new Kafka({
     brokers: [process.env.KAFKA_BROKER],
     clientId: `Kinesis-Kafka-server`,
     ssl: {
-        ca: [fs.readFileSync(path.join(__dirname, 'certs/kafka.pem'), 'utf-8')]
+        ca: [caCert]
     },
     sasl: {
         username: process.env.KAFKA_USERNAME,
@@ -22,7 +27,7 @@ export const handler = async(event) => {
     try {
         
         // Connect Producer
-        producer.connect();
+        await producer.connect();
         console.log('Producer Connected');
 
         console.log('EVENT', event);
