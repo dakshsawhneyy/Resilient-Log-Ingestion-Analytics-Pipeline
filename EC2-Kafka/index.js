@@ -21,15 +21,17 @@ const kafka = new Kafka({
 const app = express();
 const PORT = 10000;
 
+app.use(express.json());
 
 // Creating Kafka Producer
 const producer = kafka.producer();
 
 
 // Fetching Data on /data route
-app.use('/data', (req,res) => {
+app.post('/data', (req,res) => {
     const { data } = req.body;
     console.log(data);
+    res.send({status: 'Recieved'})
 })
 
 
