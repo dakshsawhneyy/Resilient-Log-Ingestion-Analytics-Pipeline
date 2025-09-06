@@ -4,18 +4,11 @@ export const handler = async(event) => {
     try {
         // console.log('EVENT', event);
 
-        // console.log(event.Records[0].kinesis)
-        const records = event.Records.flatMap(record => {
+        const records = event.Records.map(record => {
+            // Decode base64 payload
             const payload = Buffer.from(record.kinesis.data, 'base64').toString('utf-8').trim();
-            // Split by newline if multiple JSON objects exist
-            return payload.split('\n').map(line => {
-                try {
-                    return JSON.parse(line);
-                } catch (e) {
-                    console.error('Invalid JSON line:', line, e);
-                    return null;
-                }
-            }).filter(Boolean);
+            // Return raw log line instead of JSON.parse
+            return payload;
         });
         
 
