@@ -61,6 +61,8 @@ app.post('/data', async(req,res) => {
             value: JSON.stringify(record),
         }))
 
+        console.log('Kafka Messages: ', kafkaMessages)
+
         // Send this list to kafka topic
         await producer.send({
             topic: `aiven-kafka`,
