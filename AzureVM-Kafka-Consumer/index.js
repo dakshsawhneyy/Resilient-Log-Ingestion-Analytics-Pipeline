@@ -60,12 +60,28 @@ const kafkaConsumer = async() => {
                 const stringMessage = message.value.toString();
                 const record = JSON.parse(stringMessage);
                 
+                // Extract parts, status, method and ts from record
+                const parts = record.split("\t")
+                const ts = new Date(parseFloat(parts[0]) * 1000)
+                const status = parseInt(parts[2])
+                const method = parts[3]
+                const path = parts[4]
+
                 // Insert logs into clickhouse
                 try {
                     // Clickhouse returns an query_id for every insertion
                     const {query_id} = await clickhouse.insert({
-                        table: 'log_streams',
-                        values: [{ event_id: uuid(), record: JSON.stringify(record) }],
+                        table: 'cloudfront_logs',
+                        values: [{ 
+                            event_id: uuid(), 
+                            timestamp: ts.toISOString().replace("T"," ").split(".")[0], // 'YYYY-MM-DD hh:mm:ss'
+                            ip: parts[1],
+                            status: status,
+                            method: method,
+                            url_path: path,
+                            edge_location: parts[5],
+                            user_agent: parts[6]
+                        }],
                         format: 'JSONEachRow'
                     })
                     
