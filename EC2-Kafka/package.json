@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "fs": "^0.0.1-security",
     "kafkajs": "^2.2.4"
