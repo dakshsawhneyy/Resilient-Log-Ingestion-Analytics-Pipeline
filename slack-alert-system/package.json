@@ -1,0 +1,17 @@
+{
+  "name": "slack-alert-system",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@clickhouse/client": "^1.12.1",
+    "axios": "^1.11.0",
+    "dotenv": "^17.2.2"
+  }
+}
